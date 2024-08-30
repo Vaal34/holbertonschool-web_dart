@@ -1,33 +1,38 @@
-class Password {
-  // make the property password private
-  String _password = "";
+import '6-password.dart';
 
-  // Constructor
-  Password({String password = ""}) {
-    _password = password;
+class User {
+  int? id;
+  var name;
+  int? age;
+  double? height;
+  String? user_password;
+
+  User({this.id, this.name, this.age, this.height, this.user_password});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'age': age,
+      'height': height,
+    };
   }
 
-  // getter
-  String get password => _password;
-
-  // setter
-  set password(String password) {
-    _password = password;
+  static User fromJson(Map<dynamic, dynamic> userJson) {
+    return User(
+      id: userJson['id'],
+      name: userJson['name'],
+      age: userJson['age'],
+      height: userJson['height'],
+      user_password: userJson['user_password'], // Corrected here
+    );
   }
 
-  // Method to check if the password is valid
-  bool isValid() {
-    if (_password.length < 8 || _password.length > 16) {
-      return false;
-    }
-    if (!_password.contains(RegExp(r'[A-Z]'))) return false;
-    if (!_password.contains(RegExp(r'[a-z]'))) return false;
-    if (!_password.contains(RegExp(r'[0-9]'))) return false;
-    return true;
-  }
-
-  // Method to return the password
+  @override
   String toString() {
-    return "Your Password is: $_password";
+    bool isValid = user_password != null && user_password!.isNotEmpty
+        ? Password(password: user_password!).isValid()
+        : false;
+    return 'User(id : $id ,name: $name, age: $age, height: $height, Password: $isValid)';
   }
 }

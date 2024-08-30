@@ -1,49 +1,28 @@
-import '6-password.dart';
+class Password {
+  late String _password;
 
-class User extends Password {
-  int id;
-  String name;
-  int age;
-  double height;
-
-  User({
-    required this.id,
-    required this.name,
-    required this.age,
-    required this.height,
-    String? user_password,
-  }) : super(password: user_password ?? '') {
-    isValid();
+  Password({required String password}) {
+    _password = password;
   }
 
-  String get user_password => password;
-
-  set user_password(String? value) {
-    password = value ?? '';
-    isValid();
+  String get password {
+    return _password;
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'age': age,
-      'height': height,
-    };
+  void set password(String newpass) {
+    _password = newpass;
   }
 
-  static User fromJson(Map<dynamic, dynamic> userJson) {
-    return User(
-      id: userJson['id'],
-      name: userJson['name'],
-      age: userJson['age'],
-      height: userJson['height'],
-      user_password: userJson['user_password'],
-    );
+  bool isValid() {
+    if (_password.length < 8 || _password.length > 16) return false;
+    if (!_password.contains(RegExp(r'[A-Z]'))) return false;
+    if (!_password.contains(RegExp(r'[a-z]'))) return false;
+    if (!_password.contains(RegExp(r'[0-9]'))) return false;
+    return true;
   }
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, age: $age, height: $height, Password: ${isValid()})';
+    return "Your Password is: $_password";
   }
 }
